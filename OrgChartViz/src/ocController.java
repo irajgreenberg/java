@@ -23,16 +23,19 @@ public class ocController extends PApplet {
 	public ocIcon icon;
 
 	public void setup() {
-		icon = new ocIcon(this, 23.0f, ocIconDetail.CIRCLE);
+		icon = new ocIcon(this, new PVector(200, 100), 23.0f, ocIconDetail.RECTANGLE);
 	}
 
 	public void draw() {
-		translate(width/2, height/2);
+		background(255);
+		//translate(width/2, height/2);
 		icon.draw();
+		
+		println(icon.isHit(mouseX, mouseY));
 	}
 
 	public void settings() {
-		size(1920, 1080);
+		size(620, 500);
 	}
 
 	static public void main(String[] passedArgs) {
@@ -42,5 +45,9 @@ public class ocController extends PApplet {
 		} else {
 			PApplet.main(appletArgs);
 		}
+	}
+	
+	public void mouseReleased(){
+		icon.reset();
 	}
 }
