@@ -11,12 +11,15 @@ public class ocIcon {
 	 */
 	public PApplet p;
 	public PVector pos, initPos;
-	public PVector spd;
 	public float radius;
 	public ocIconDetail shape;
 	public ArrayList<PVector> vecs;
 	public int detail = 36;
 	private boolean isBeingHit = false;
+	private boolean isResettable;
+	private float spd = 10.2f;
+	private PVector resetVector = new PVector();
+	private PVector temp = new PVector();
 
 	public ocIcon() {
 	}
@@ -77,9 +80,19 @@ public class ocIcon {
 		if(p.mousePressed && isBeingHit){
 			pos.x = p.mouseX;
 			pos.y = p.mouseY;
+			
+			temp.set(pos);
+			temp.sub(initPos);
+			temp.normalize();
+			temp.mult(spd);
+//			//resetVector
 		}
 		
-		pos.mult(.095f);
+		if(isResettable){
+			if(p.dist(pos.x, pos.y, initPos.x, initPos.y)> 5){
+				pos.sub(temp);
+			}
+		}
 		
 		
 	}
@@ -94,7 +107,7 @@ public class ocIcon {
 	}
 	
 	public void reset() {
-		pos.mult(.095f);
+		pos.mult(.99f);
 //		PVector delta = new PVector();
 //		delta.set(pos);
 //		delta.sub(initPos);
@@ -102,6 +115,10 @@ public class ocIcon {
 //			pos.mult(.95f);
 //		}
 		
+	}
+	
+	public void setIsResettable(boolean isResettable){
+		this.isResettable = isResettable;
 	}
 		
 

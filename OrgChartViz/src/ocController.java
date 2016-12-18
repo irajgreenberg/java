@@ -48,6 +48,6 @@ public class ocController extends PApplet {
 	}
 	
 	public void mouseReleased(){
-		icon.reset();
+		icon.setIsResettable(true);
 	}
 }
