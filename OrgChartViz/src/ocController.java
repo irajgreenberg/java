@@ -21,21 +21,25 @@ public class ocController extends PApplet {
 	 * 
 	 */
 	public ocIcon icon;
+	public ocCollection collection;
 
 	public void setup() {
 		icon = new ocIcon(this, new PVector(200, 100), 23.0f, ocIconDetail.RECTANGLE);
+		collection = new ocCollection(this, 12);
+		surface.setResizable(true);
 	}
 
 	public void draw() {
 		background(255);
 		//translate(width/2, height/2);
-		icon.draw();
-		
-		println(icon.isHit(mouseX, mouseY));
+		icon.display();
+		collection.display();
+		//println(icon.isHit(mouseX, mouseY));
 	}
 
 	public void settings() {
-		size(620, 500);
+		size(1220, 900);
+		
 	}
 
 	static public void main(String[] passedArgs) {

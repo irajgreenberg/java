@@ -67,7 +67,7 @@ public class ocIcon {
 		}
 	}
 
-	public void draw() {
+	public void display() {
 		p.pushMatrix();
 		p.translate(pos.x, pos.y);
 		p.beginShape();
