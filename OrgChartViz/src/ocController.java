@@ -20,19 +20,21 @@ public class ocController extends PApplet {
 	 *
 	 * 
 	 */
-	public ocIcon icon;
+	//public ocIcon icon;
 	public ocCollection collection;
 
 	public void setup() {
-		icon = new ocIcon(this, new PVector(200, 100), 23.0f, ocIconDetail.RECTANGLE);
-		collection = new ocCollection(this, 12);
+		//surface.setResizable(true);
+		//icon = new ocIcon(this, new PVector(200, 100), 23.0f, ocIconDetail.RECTANGLE);
+		collection = new ocCollection(this, 3);
 		surface.setResizable(true);
+		
 	}
 
 	public void draw() {
 		background(255);
 		//translate(width/2, height/2);
-		icon.display();
+		//icon.display();
 		collection.display();
 		//println(icon.isHit(mouseX, mouseY));
 	}
@@ -52,6 +54,7 @@ public class ocController extends PApplet {
 	}
 	
 	public void mouseReleased(){
-		icon.setIsResettable(true);
+		//icon.setIsDraggable(false);
+		collection.setIsDraggable(false);
 	}
 }
