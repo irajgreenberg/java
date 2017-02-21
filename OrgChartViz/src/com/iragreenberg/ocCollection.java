@@ -7,13 +7,15 @@ import processing.core.PVector;
 
 public class ocCollection {
 
-	public int entities = 12;
+	public int entities = 4; // default
 	public ArrayList<ocIcon> icons = new ArrayList<ocIcon>();
 	public ArrayList<Boolean> areIconsDraggable = new ArrayList<Boolean>();
 	private PApplet p;
 	public float margin = 100.0f;
 	public boolean isSystemHitSafe = true;
 	public boolean isSystemExpandableSafe = true;
+	public float expandSpeed = 6.5f;
+	// public float initScaleFactor; // initially scales nodes per node count
 
 	public ocCollection() {
 	}
@@ -21,12 +23,10 @@ public class ocCollection {
 	// PApplet p, PVector pos, float radius, ocIconDetail shape
 	public ocCollection(PApplet p, int entities) {
 		this.p = p;
-		float iconW = 60.0f;
+		float iconW = p.width / (entities * 2);
 		float gap = (p.width - margin * 2.0f - iconW * entities) / (entities - 1);
-		
-		
-		
-		
+
+		// if > 1 node, automatically evenly space along x-axis
 		if (entities > 1) {
 			icons.add(new ocIcon(p, new PVector(margin + iconW / 2.0f, p.height / 2.0f), iconW / 2.0f,
 					ocIconDetail.CIRCLE));
@@ -36,11 +36,12 @@ public class ocCollection {
 			}
 			icons.add(new ocIcon(p, new PVector(p.width - margin - iconW / 2.0f, p.height / 2.0f), iconW / 2.0f,
 					ocIconDetail.CIRCLE));
+			// center singleton case
 		} else {
-			icons.add(new ocIcon(p, new PVector(p.width/2.0f, p.height / 2.0f),
-					iconW / 2.0f, ocIconDetail.CIRCLE));
+			icons.add(new ocIcon(p, new PVector(p.width / 2.0f, p.height / 2.0f), iconW / 2.0f, ocIconDetail.CIRCLE));
 		}
 
+		// set all nodes draggable - TO DO: add UI Controls
 		for (int i = 0; i < icons.size(); i++) {
 			icons.get(i).setIsDraggable(false);
 		}
@@ -49,9 +50,12 @@ public class ocCollection {
 	public void display() {
 
 		for (int i = 0; i < icons.size(); i++) {
+
 			ocIcon icon = icons.get(i);
+
 			if (p.mousePressed && icon.isHit() && isSystemHitSafe) {
-				icon.isDraggable = true; // set state NOT actual position of sprite
+				icon.isDraggable = true; // set state NOT actual position of
+											// sprite
 				isSystemHitSafe = false;
 			} else {
 				icon.pos.x = icon.initPos.x + icon.offset.x;
@@ -64,18 +68,18 @@ public class ocCollection {
 				icon.pos.y = p.mouseY;
 				icon.offset = new PVector(p.mouseX - icon.initPos.x, p.mouseY - icon.initPos.y);
 			}
-			
+
 			if (icon.isHit() && isSystemExpandableSafe) {
-				icon.isExpandable = true; 
+				icon.isExpandable = true;
 				isSystemExpandableSafe = false;
 			} else {
-				//icon.radius = icon.initRadius;
-				//icon.offset.mult(icon.offsetDamping);
+				// icon.radius = icon.initRadius;
+				// icon.offset.mult(icon.offsetDamping);
 			}
-			
+
 			p.pushMatrix();
-			if (icon.isExpandable) {
-				icon.radius +=1.2f;
+			if (icon.isExpandable && icon.radius < 100) {
+				icon.radius += expandSpeed;
 			}
 
 			icons.get(i).display();
@@ -95,7 +99,7 @@ public class ocCollection {
 			icons.get(i).setIsDraggable(isDraggable);
 		}
 	}
-	
+
 	public void setIsExpandable(boolean isExpandable) {
 		if (!isExpandable) {
 			isSystemExpandableSafe = true;
